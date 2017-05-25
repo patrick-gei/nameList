@@ -3,10 +3,19 @@ $(document).ready(() => {
     function loadNames(){
       $.get("/api/v1/names", function(res) {
         res.forEach(function(val){
-          $("#nameList").append(`<tr><td>${val.name}</td></tr>`)
+          $("#nameList").append(buildNameRow(val))
         })
       })
     } loadNames();
+
+    function buildNameRow(nameObj) {
+      return `<tr id="${nameObj.id}"><td>${nameObj.name}</td><td>${new Date(nameObj.created).toLocaleDateString()}</td><td>
+      <span class="glyphicon glyphicon-trash trash" aria-hidden="true"></span></td></tr>`
+    }
+
+    $(`.trash`).click(function(){
+      console.log('trash');
+    })
 
     $(`#submitButton`).click(function(){
       if ($("#nameInput").val()){
@@ -15,7 +24,7 @@ $(document).ready(() => {
         }
         $.post("/api/v1/names", submittedName, function(res) {
           console.log(res);
-          $("#nameList").append(`<tr><td>${res.name}</td></tr>`)
+          $("#nameList").append(buildNameRow(res))
           $("#nameInput").val("")
         })
         $(`#namesForm`).submit(false)
