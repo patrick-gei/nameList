@@ -9,13 +9,16 @@ $(document).ready(() => {
     } loadNames();
 
     function buildNameRow(nameObj) {
-      return `<tr id="${nameObj.id}"><td>${nameObj.name}</td><td>${new Date(nameObj.created).toLocaleDateString()}</td><td>
+      return `<tr id="${nameObj._id}"><td>${nameObj.name}</td><td>${new Date(nameObj.created).toLocaleDateString()}</td><td>
       <span class="glyphicon glyphicon-trash trash" aria-hidden="true"></span></td></tr>`
     }
 
-    $(`.trash`).click(function(){
-      console.log('trash');
-    })
+    $(document).on('click', '.trash', function(e) {
+      const row = $(this).parent().parent()
+      const name_id = row.attr(`id`)
+      console.log(name_id);
+      $(`#${name_id}`).html('')
+    });
 
     $(`#submitButton`).click(function(){
       if ($("#nameInput").val()){
