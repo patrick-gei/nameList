@@ -17,7 +17,7 @@ $(document).ready(() => {
       const row = $(this).parent().parent()
       const name_id = row.attr(`id`)
       console.log(name_id);
-      $(`#${name_id}`).html('')
+      $(`#${name_id}`).remove()
     });
 
     $(`#submitButton`).click(function(){
