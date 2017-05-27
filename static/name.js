@@ -2,11 +2,15 @@ $(document).ready(() => {
     console.log('actions.js is ready!');
 
     function loadNames() {
-        $.get("/api/v1/names", function(res) {
-            res.forEach(function(val) {
-                $("#nameList").append(buildNameRow(val))
+        axios.get('/api/v1/names')
+            .then(function(response) {
+                response.data.forEach(function(val) {
+                    $("#nameList").append(buildNameRow(val))
+                })
             })
-        })
+            .catch(function(error) {
+                console.log(error);
+            });
     }
     loadNames();
 
@@ -19,10 +23,21 @@ $(document).ready(() => {
         const row = $(this).parent().parent()
         const name_id = row.attr(`id`)
         console.log(name_id);
+        axios.delete(`/api/v1/names/${name_id}`)
+            .then(function(response) {
+                console.log('delete invoked', response)
+                $(`#${name_id}`).remove()
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
         return $.ajax({
             url: `/api/v1/names/${name_id}`,
             type: 'DELETE',
-            success: (response) => {console.log('delete response',response);$(`#${name_id}`).remove()}
+            success: (response) => {
+                console.log('delete response', response);
+                $(`#${name_id}`).remove()
+            }
         });
 
     });

@@ -49,7 +49,7 @@ Name.prototype.delete = function(request, response) {
         }
     }
 
-    response.status(201).end();
+    response.status(202).end();
 }
 
 
